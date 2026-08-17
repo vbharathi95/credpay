@@ -9,7 +9,7 @@ ENV DB_USERNAME=postgres
 ENV DB_HOST=localhost
 ENV DB_PORT=5432
 ENV DB_NAME=credpay
-RUN useradd --create-home -uid 1001 appuser
+RUN useradd --create-home --uid 1001 appuser
 USER appuser
 EXPOSE 8000
 ENTRYPOINT ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
