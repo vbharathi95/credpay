@@ -1,0 +1,10 @@
+ - task: Docker@2
+            inputs:
+              containerRegistry: 'cred-acr'
+              repository: '$(paymentrepo)'
+              command: 'buildAndPush'
+              Dockerfile: 'payment-service/dockerfile'
+              buildContext: payment-service
+              tags: |
+                $(tag)
+                latest

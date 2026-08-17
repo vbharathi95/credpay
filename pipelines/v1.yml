@@ -1,0 +1,11 @@
+trigger:
+- main
+pool:
+  vmImage: 'Ubuntu-latest'
+steps:
+  - checkout: self
+  - script: |
+      echo "repository folder structure"
+      pwd
+      ls -la
+
