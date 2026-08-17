@@ -19,7 +19,7 @@ stages:
           - task: Docker@2
             inputs:
               containerRegistry: 'cred-acr'
-              repository: 'frontendrepo'
+              repository: '$(frontendrepo)'
               command: 'buildAndPush'
               Dockerfile: 'frontend-react/dockerfile'
               buildContext: frontend-react
