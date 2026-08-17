@@ -22,6 +22,7 @@ stages:
               repository: 'frontendrepo'
               command: 'buildAndPush'
               Dockerfile: 'frontend-react/dockerfile'
+              buildContext: frontend-react
               tags: 
                 $(tag)
                 latest
