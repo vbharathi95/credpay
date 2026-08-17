@@ -21,8 +21,8 @@ stages:
               containerRegistry: 'cred-acr'
               repository: 'frontendrepo'
               command: 'buildAndPush'
-              Dockerfile: 'frontend-react/dockerfile'
+              Dockerfile: 'frontend-react/Dockerfile'
               buildContext: frontend-react
-              tags: 
+              tags: |
                 $(tag)
                 latest
