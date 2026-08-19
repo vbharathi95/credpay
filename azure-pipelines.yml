@@ -9,41 +9,52 @@ variables:
   paymentrepo: 'credpay/payment'
   userrepo: 'credpay/user'
 stages:
-  - stage: DockerBuild
-    displayName: Build Docker Images
+  # - stage: DockerBuild
+  #   displayName: Build Docker Images
+  #   jobs:
+  #     - job: BuildandPushImages
+  #       displayName: Build Docker Images
+  #       steps:
+  #         - checkout: self
+  #         - task: Docker@2
+  #           inputs:
+  #             containerRegistry: 'cred-acr'
+  #             repository: '$(frontendrepo)'
+  #             command: 'buildAndPush'
+  #             Dockerfile: 'frontend-react/dockerfile'
+  #             buildContext: frontend-react
+  #             tags: |
+  #               $(tag)
+  #               latest
+
+  #         - task: Docker@2
+  #           inputs:
+  #             containerRegistry: 'cred-acr'
+  #             repository: '$(paymentrepo)'
+  #             command: 'buildAndPush'
+  #             Dockerfile: 'payment-service/dockerfile'
+  #             buildContext: payment-service
+  #             tags: |
+  #               $(tag)
+  #               latest
+  #         - task: Docker@2
+  #           inputs:
+  #             containerRegistry: 'cred-acr'
+  #             repository: '$(userrepo)'
+  #             command: 'buildAndPush'
+  #             Dockerfile: 'user-service/dockerfile'
+  #             buildContext: user-service
+  #             tags: |
+  #               $(tag)
+  #               latest
+  - stage: terraform
+    displayName: Terraform Infra
     jobs:
-      - job: BuildandPushImages
-        displayName: Build Docker Images
+      - job: TerraformApply
+        displayName: TerraformApply
         steps:
           - checkout: self
-          - task: Docker@2
+          - task: TerraformInstaller@1
             inputs:
-              containerRegistry: 'cred-acr'
-              repository: '$(frontendrepo)'
-              command: 'buildAndPush'
-              Dockerfile: 'frontend-react/dockerfile'
-              buildContext: frontend-react
-              tags: |
-                $(tag)
-                latest
-
-          - task: Docker@2
-            inputs:
-              containerRegistry: 'cred-acr'
-              repository: '$(paymentrepo)'
-              command: 'buildAndPush'
-              Dockerfile: 'payment-service/dockerfile'
-              buildContext: payment-service
-              tags: |
-                $(tag)
-                latest
-          - task: Docker@2
-            inputs:
-              containerRegistry: 'cred-acr'
-              repository: '$(userrepo)'
-              command: 'buildAndPush'
-              Dockerfile: 'user-service/dockerfile'
-              buildContext: user-service
-              tags: |
-                $(tag)
-                latest
+              terraformVersion: 'latest'
+              
