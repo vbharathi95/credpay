@@ -77,15 +77,15 @@ stages:
               # Fixes 403 authorization error by forcing Azure AD auth
               backendAzureRmUseAzureAD: true
 
-          - task: TerraformTask@5
-            displayName: 'Terraform Apply'
-            inputs:
-              provider: 'azurerm'
-              command: 'apply'
-              workingDirectory: 'terraform'
-              # Fixes hyphen syntax and prevents interactive prompt hanging
-              commandOptions: '--auto-approve'
-              environmentServiceNameAzureRM: 'UC-Manual'
+          # - task: TerraformTask@5
+          #   displayName: 'Terraform Apply'
+          #   inputs:
+          #     provider: 'azurerm'
+          #     command: 'apply'
+          #     workingDirectory: 'terraform'
+          #     # Fixes hyphen syntax and prevents interactive prompt hanging
+          #     commandOptions: '--auto-approve'
+          #     environmentServiceNameAzureRM: 'UC-Manual'
           - task: TerraformTask@5
             inputs:
               provider: 'azurerm'
