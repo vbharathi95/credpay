@@ -86,4 +86,10 @@ stages:
               # Fixes hyphen syntax and prevents interactive prompt hanging
               commandOptions: '--auto-approve'
               environmentServiceNameAzureRM: 'UC-Manual'
-        
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
+              command: 'destroy'
+              workingDirectory: 'terraform'
+              commandOptions: '--auto-approve'
+              environmentServiceNameAzureRM: 'UC-Manual'
