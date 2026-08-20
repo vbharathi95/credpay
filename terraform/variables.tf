@@ -5,6 +5,7 @@
 # Azure Subscription ID
 variable "subscription_id" {
   type = string
+  default = "308bf077-f95a-4e26-a6c7-674e7488943d"
 }
 
 # Azure Region (e.g. eastus)

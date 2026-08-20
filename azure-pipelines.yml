@@ -1,13 +1,16 @@
 trigger:
-- main
+  - main
+
 pool:
-  vmImage: 'Ubuntu-latest'
+  vmImage: 'ubuntu-latest'
+
 variables:
-  acrserviceconnection: cred-acr
+  acrserviceconnection: 'cred-acr'
   tag: '$(Build.BuildId)'
   frontendrepo: 'credpay/frontend'
   paymentrepo: 'credpay/payment'
   userrepo: 'credpay/user'
+
 stages:
   # - stage: DockerBuild
   #   displayName: Build Docker Images
@@ -47,14 +50,40 @@ stages:
   #             tags: |
   #               $(tag)
   #               latest
+
   - stage: terraform
-    displayName: Terraform Infra
+    displayName: 'Terraform Infra'
     jobs:
       - job: TerraformApply
-        displayName: TerraformApply
+        displayName: 'TerraformApply'
         steps:
           - checkout: self
+
           - task: TerraformInstaller@1
             inputs:
               terraformVersion: 'latest'
-              
+
+          - task: TerraformTask@5
+            displayName: 'Terraform Init'
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              workingDirectory: 'terraform'
+              backendServiceArm: 'UC-Manual'
+              backendAzureRmResourceGroupName: 'credpay'
+              backendAzureRmStorageAccountName: 'credpaysa12'
+              backendAzureRmContainerName: 'statefulset'
+              backendAzureRmKey: 'terraform.tfstate'
+              # Fixes 403 authorization error by forcing Azure AD auth
+              backendAzureRmUseAzureAD: true
+
+          - task: TerraformTask@5
+            displayName: 'Terraform Apply'
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
+              workingDirectory: 'terraform'
+              # Fixes hyphen syntax and prevents interactive prompt hanging
+              commandOptions: '--auto-approve'
+              environmentServiceNameAzureRM: 'UC-Manual'
+        
